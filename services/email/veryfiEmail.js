@@ -1,5 +1,5 @@
 const { User } = require("../../models");
-const { NotFound } = require("http-errors");
+// const { NotFound } = require("http-errors");
 
 const verifyEmail = async (req, res, next) => {
   try {
