@@ -1,34 +1,22 @@
-const { User } = require('../../models');
-const { sendEmail } = require('./sendEmail');
-const { BadRequest, NotFound } = require('http-errors');
-
-const { BASE_URL } = process.env;
-
+const { User } = require("../../models");
+const { verificationEmail } = require("./email");
+const { BadRequest, NotFound } = require("http-errors");
 const resendVerifyEmail = async (req, res) => {
   const { email } = req.body;
-
   const user = await User.findOne({ email });
-
   if (!user) {
     throw new NotFound();
   }
-
   if (user.verify) {
-    throw new BadRequest('Verification has already been passed');
+    throw new BadRequest("Verification has already been passed");
   }
-
-  const mail = {
-    to: email,
-    subject: 'Verify email',
-    html: `<a target = "_blank" href="${BASE_URL}/api/users/verify/${user.verificationToken}">Click verify email<a>`,
-  };
-  await sendEmail(mail);
+  const VerifyToken = user.verificationToken;
+  await verificationEmail(email, VerifyToken);
   res.json({
-    status: 'success',
+    status: "success",
     code: 200,
     email,
-    message: 'Verification email sent',
+    message: "Verification email sent",
   });
 };
-
 module.exports = resendVerifyEmail;
