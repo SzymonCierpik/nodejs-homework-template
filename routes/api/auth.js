@@ -21,5 +21,3 @@ router.get('/verify/:verificationToken', ctrlWrapper(email.verifyEmail));
 router.post('/verify', validation(schemas.verifyEmailSchema), ctrlWrapper(email.resendVerifyEmail));
 
 module.exports = router;
-
-module.exports = router;
