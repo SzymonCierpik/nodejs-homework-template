@@ -19,6 +19,7 @@ const register = async (req, res) => {
     avatarURL,
     verificationToken,
   });
+  
   verificationEmail(newUser.email, newUser.verificationToken);
   res.status(201).json({
     status: "success",
